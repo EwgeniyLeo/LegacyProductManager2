@@ -7,6 +7,7 @@ import ru.netology.domain.Book;
 import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
+import ru.netology.ru.netology.exception.NotFoundException;
 
 public class ProductManagerTest {
     ProductRepository repository = new ProductRepository();
@@ -30,6 +31,18 @@ public class ProductManagerTest {
     }
 
     @Test
+    public void noIdInRepository() {
+        Assertions.assertThrows(NotFoundException.class, () -> manager.removeById(77));
+    }
+
+    @Test
+    public void idInRepository() {
+        Product[] expected = {book, book1, book2, smartphone1, smartphone2};
+        Product[] actual = manager.removeById(66);
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+/*    @Test
     public void shouldAddandFindAllProducts() {
         Product[] expected = {book, book1, book2, smartphone1, smartphone2, smartphone3};
         Product[] actual = manager.findAll();
@@ -56,5 +69,7 @@ public class ProductManagerTest {
         Product[] expected = {};
         Product[] actual = manager.searchBy("Light");
         Assertions.assertArrayEquals(expected, actual);
-    }
+    }*/
+
+
 }
